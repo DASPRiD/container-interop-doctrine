@@ -25,6 +25,7 @@ return [
             'doctrine.connection.orm_default' => \ContainerInteropDoctrine\ConnectionFactory::class,
             'doctrine.configuration.orm_default' => \ContainerInteropDoctrine\ConfigurationFactory::class,
             'doctrine.entity_manager.orm_default' => \ContainerInteropDoctrine\EntityManagerFactory::class,
+            'doctrine.event_manager.orm_default' => \ContainerInteropDoctrine\EventManagerFactory::class,
         ],
     ],
 ];
@@ -40,7 +41,14 @@ return [
             'doctrine.connection.orm_other' => [\ContainerInteropDoctrine\ConnectionFactory::class, 'orm_other'],
             'doctrine.configuration.orm_other' => [\ContainerInteropDoctrine\ConfigurationFactory::class, 'orm_other'],
             'doctrine.entity_manager.orm_other' => [\ContainerInteropDoctrine\EntityManagerFactory::class, 'orm_other'],
+            'doctrine.event_manager.orm_other' => [\ContainerInteropDoctrine\EventManagerFactory::class, 'orm_other'],
         ],
     ],
 ];
 ```
+
+## Example configuration
+
+A complete example configuration can be found in the [example/config.php](example/config.php). Please not that the
+values in there are the defaults, and don't have to be supplied when you are not changing them. Keep your own
+configuration as minimal as possible.

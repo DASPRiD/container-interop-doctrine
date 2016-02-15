@@ -1,6 +1,6 @@
 <?php
 /**
- * Dash
+ * container-interop-doctrine
  *
  * @link      http://github.com/DASPRiD/container-interop-doctrine For the canonical source repository
  * @copyright 2016 Ben Scholzen 'DASPRiD'

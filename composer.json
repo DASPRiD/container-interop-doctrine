@@ -1,0 +1,6 @@
+{
+    "require": {
+        "doctrine/orm": "^2.5",
+        "container-interop/container-interop": "^1.1"
+    }
+}

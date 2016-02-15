@@ -1,6 +1,16 @@
 {
+    "name": "dasprid/container-interop-doctrine",
+    "type": "library",
+    "description": "Doctrine factories for container-interop",
+    "homepage": "https://github.com/DASPRiD/container-interop-doctrine",
+    "license" : "BSD-2-Clause",
     "require": {
         "doctrine/orm": "^2.5",
         "container-interop/container-interop": "^1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "ContainerInteropDoctrine": "src/"
+        }
     }
 }

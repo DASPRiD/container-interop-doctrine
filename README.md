@@ -1,15 +1,16 @@
-# zend-expressive-doctrine
+# container-interop-doctrine
 
-Doctrine subcomponent for [Expressive](https://github.com/zendframework/zend-expressive).
+[Doctrine](https://github.com/doctrine) factories for [container-interop](https://github.com/container-interop/container-interop)
 
-This package provides a set of factories to be used with expressive for an easy Doctrine integration.
+This package provides a set of factories to be used with containers using the container-interop standard for an easy
+Doctrine integration in a project.
 
 ## Installation
 
 The easiest way to install this package is through composer:
 
 ```bash
-$ composer require zendframework/zend-expressive-doctrine
+$ composer require dasprid/container-interop-doctrine
 ```
 
 ## Configuration
@@ -21,9 +22,9 @@ dependency container configuration:
 return [
     'dependencies' => [
         'factories' => [
-            'doctrine.connection.orm_default' => \Zend\Expressive\Doctrine\ConnectionFactory::class,
-            'doctrine.configuration.orm_default' => \Zend\Expressive\Doctrine\ConfigurationFactory::class,
-            'doctrine.entity_manager.orm_default' => \Zend\Expressive\Doctrine\EntityManagerFactory::class,
+            'doctrine.connection.orm_default' => \ContainerInteropDoctrine\ConnectionFactory::class,
+            'doctrine.configuration.orm_default' => \ContainerInteropDoctrine\ConfigurationFactory::class,
+            'doctrine.entity_manager.orm_default' => \ContainerInteropDoctrine\EntityManagerFactory::class,
         ],
     ],
 ];
@@ -36,9 +37,9 @@ variants of the factories:
 return [
     'dependencies' => [
         'factories' => [
-            'doctrine.connection.orm_other' => [\Zend\Expressive\Doctrine\ConnectionFactory::class, 'orm_other'],
-            'doctrine.configuration.orm_other' => [\Zend\Expressive\Doctrine\ConfigurationFactory::class, 'orm_other'],
-            'doctrine.entity_manager.orm_other' => [\Zend\Expressive\Doctrine\EntityManagerFactory::class, 'orm_other'],
+            'doctrine.connection.orm_other' => [\ContainerInteropDoctrine\ConnectionFactory::class, 'orm_other'],
+            'doctrine.configuration.orm_other' => [\ContainerInteropDoctrine\ConfigurationFactory::class, 'orm_other'],
+            'doctrine.entity_manager.orm_other' => [\ContainerInteropDoctrine\EntityManagerFactory::class, 'orm_other'],
         ],
     ],
 ];

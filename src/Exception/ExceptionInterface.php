@@ -1,13 +1,13 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
+ * Dash
  *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @link      http://github.com/DASPRiD/container-interop-doctrine For the canonical source repository
+ * @copyright 2016 Ben Scholzen 'DASPRiD'
+ * @license   http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
 
-namespace Zend\Expressive\Doctrine\Exception;
+namespace ContainerInteropDoctrine\Exception;
 
 interface ExceptionInterface
 {

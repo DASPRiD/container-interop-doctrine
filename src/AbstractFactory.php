@@ -14,12 +14,25 @@ use Interop\Container\ContainerInterface;
 abstract class AbstractFactory
 {
     /**
+     * @var string
+     */
+    private $configKey;
+
+    /**
+     * @param string $configKey
+     */
+    public function __construct($configKey = 'orm_default')
+    {
+        $this->configKey = $configKey;
+    }
+
+    /**
      * @param ContainerInterface $container
      * @return mixed
      */
     public function __invoke(ContainerInterface $container)
     {
-        return $this->createWithConfig($container, 'orm_default');
+        return $this->createWithConfig($container, $this->configKey);
     }
 
     /**
@@ -48,7 +61,7 @@ abstract class AbstractFactory
             ));
         }
 
-        return (new static())->createWithConfig($arguments[0], $name);
+        return (new static($name))->__invoke($arguments[0]);
     }
 
     /**

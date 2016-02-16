@@ -47,8 +47,14 @@ return [
 ];
 ```
 
+For container specific configurations, there are a few examples provided in the example directory:
+
+- [Aura.Di](example/aura-di.php)
+- [PimpleInterop](example/pimple-interop.php)
+- [Zend\ServiceManager](example/zend-servicemanager.php)
+
 ## Example configuration
 
-A complete example configuration can be found in the [example/config.php](example/config.php). Please not that the
+A complete example configuration can be found in the [example/config.php](example/config.php). Please note that the
 values in there are the defaults, and don't have to be supplied when you are not changing them. Keep your own
 configuration as minimal as possible.

@@ -71,7 +71,7 @@ abstract class AbstractFactory
      * @param string $configKey
      * @return mixed
      */
-    abstract public function createWithConfig(ContainerInterface $container, $configKey);
+    abstract protected function createWithConfig(ContainerInterface $container, $configKey);
 
     /**
      * Retrieves the config for a specific section.

@@ -12,12 +12,15 @@ namespace ContainerInteropDoctrine;
 use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
 
-class ConnectionFactory extends AbstractFactory
+/**
+ * @method EntityManager __invoke(ContainerInterface $container)
+ */
+class EntityManagerFactory extends AbstractFactory
 {
     /**
      * {@inheritdoc}
      */
-    public function createWithConfig(ContainerInterface $container, $configKey)
+    protected function createWithConfig(ContainerInterface $container, $configKey)
     {
         $config = $this->retrieveConfig($container, $configKey, 'entity_manager') + [
             'connection' => $configKey,

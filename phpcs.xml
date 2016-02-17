@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<ruleset name="container-interop-doctrine">
+    <file>./example</file>
+    <file>./src</file>
+    <file>./test</file>
+    <rule ref="PSR2"/>
+</ruleset>
+

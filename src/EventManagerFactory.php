@@ -13,12 +13,15 @@ use Doctrine\Common\EventManager;
 use Doctrine\Common\EventSubscriber;
 use Interop\Container\ContainerInterface;
 
+/**
+ * @method EventManager __invoke(ContainerInterface $container)
+ */
 class EventManagerFactory extends AbstractFactory
 {
     /**
      * {@inheritdoc}
      */
-    public function createWithConfig(ContainerInterface $container, $configKey)
+    protected function createWithConfig(ContainerInterface $container, $configKey)
     {
         $config = $this->retrieveConfig($container, $configKey, 'event_manager') + [
             'subscribers' => [],

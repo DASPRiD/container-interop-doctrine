@@ -13,12 +13,15 @@ use Doctrine\ORM\Configuration;
 use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
 use Interop\Container\ContainerInterface;
 
-class ConnectionFactory extends AbstractFactory
+/**
+ * @method Configuration __invoke(ContainerInterface $container)
+ */
+class ConfigurationFactory extends AbstractFactory
 {
     /**
      * {@inheritdoc}
      */
-    public function createWithConfig(ContainerInterface $container, $configKey)
+    protected function createWithConfig(ContainerInterface $container, $configKey)
     {
         $config = $this->retrieveConfig($container, $configKey, 'configuration') + [
             'proxy_dir' => 'data/cache/DoctrineEntityProxy',

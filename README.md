@@ -1,5 +1,8 @@
 # container-interop-doctrine
 
+[![Build Status](https://api.travis-ci.org/DASPRiD/container-interop-doctrine.png?branch=master)](http://travis-ci.org/DASPRiD/container-interop-doctrine)
+[![Coverage Status](https://coveralls.io/repos/DASPRiD/container-interop-doctrine/badge.png?branch=master)](https://coveralls.io/r/DASPRiD/container-interop-doctrine)
+
 [Doctrine](https://github.com/doctrine) factories for [container-interop](https://github.com/container-interop/container-interop)
 
 This package provides a set of factories to be used with containers using the container-interop standard for an easy

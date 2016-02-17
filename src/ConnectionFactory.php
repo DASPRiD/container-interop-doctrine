@@ -9,16 +9,20 @@
 
 namespace ContainerInteropDoctrine;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\PDOMySql\Driver as PdoMysqlDriver;
 use Doctrine\DBAL\DriverManager;
 use Interop\Container\ContainerInterface;
 
+/**
+ * @method Connection __invoke(ContainerInterface $container)
+ */
 class ConnectionFactory extends AbstractFactory
 {
     /**
      * {@inheritdoc}
      */
-    public function createWithConfig(ContainerInterface $container, $configKey)
+    protected function createWithConfig(ContainerInterface $container, $configKey)
     {
         $config = $this->retrieveConfig($container, $configKey, 'connection') + [
             'driver_class' => PdoMysqlDriver::class,

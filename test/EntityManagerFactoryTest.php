@@ -99,7 +99,7 @@ class EntityManagerFactoryTest extends PHPUnit_Framework_TestCase
         $configuration = new Configuration();
         $configuration->setMetadataDriverImpl(new MappingDriverChain());
         $configuration->setProxyDir(sys_get_temp_dir());
-        $configuration->setProxyNamespace(self::CLASS);
+        $configuration->setProxyNamespace('EntityManagerFactoryTest');
 
         return $configuration;
     }

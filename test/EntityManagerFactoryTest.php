@@ -9,6 +9,7 @@
 
 namespace ContainerInteropDoctrineTest;
 
+use ContainerInteropDoctrine\AbstractFactory;
 use ContainerInteropDoctrine\EntityManagerFactory;
 use Doctrine\Common\EventManager;
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
@@ -19,6 +20,11 @@ use PHPUnit_Framework_TestCase;
 
 class EntityManagerFactoryTest extends PHPUnit_Framework_TestCase
 {
+    public function testExtendsAbstractFactory()
+    {
+        $this->assertInstanceOf(AbstractFactory::class, new EntityManagerFactory());
+    }
+
     public function testDefaults()
     {
         $connection = $this->buildConnection();

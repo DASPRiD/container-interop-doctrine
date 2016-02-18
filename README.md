@@ -1,5 +1,7 @@
 # container-interop-doctrine
 
+[![Latest Stable Version](https://poser.pugx.org/dasprid/container-interop-doctrine/v/stable)](https://packagist.org/packages/dasprid/container-interop-doctrine)
+[![Total Downloads](https://poser.pugx.org/dasprid/container-interop-doctrine/downloads)](https://packagist.org/packages/dasprid/container-interop-doctrine)
 [![Build Status](https://api.travis-ci.org/DASPRiD/container-interop-doctrine.png?branch=master)](http://travis-ci.org/DASPRiD/container-interop-doctrine)
 [![Coverage Status](https://coveralls.io/repos/DASPRiD/container-interop-doctrine/badge.png?branch=master)](https://coveralls.io/r/DASPRiD/container-interop-doctrine)
 

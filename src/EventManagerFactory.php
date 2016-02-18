@@ -9,6 +9,7 @@
 
 namespace ContainerInteropDoctrine;
 
+use ContainerInteropDoctrine\Exception\DomainException;
 use Doctrine\Common\EventManager;
 use Doctrine\Common\EventSubscriber;
 use Interop\Container\ContainerInterface;
@@ -30,23 +31,25 @@ class EventManagerFactory extends AbstractFactory
         $eventManager = new EventManager();
 
         foreach ($config['subscribers'] as $subscriber) {
-            if ($container->has($subscriber)) {
+            if (is_object($subscriber)) {
+                $subscriberName = get_class($subscriber);
+            } elseif (!is_string($subscriber)) {
+                $subscriberName = gettype($subscriber);
+            } elseif ($container->has($subscriber)) {
                 $subscriber = $container->get($subscriber);
-                $name = $subscriber;
+                $subscriberName = $subscriber;
             } elseif (class_exists($subscriber)) {
                 $subscriber = new $subscriber();
-                $name = get_class($subscriber);
-            } elseif (is_object($subscriber)) {
-                $name = get_class($subscriber);
+                $subscriberName = get_class($subscriber);
             } else {
-                $name = (string) $name;
+                $subscriberName = $subscriber;
             }
 
             if (!$subscriber instanceof EventSubscriber) {
-                throw new Exception\DomainException(sprintf(
+                throw new DomainException(sprintf(
                     'Invalid event subscriber "%s" given, mut be a dependency name, class name or an instance'
                     . ' implementing %s',
-                    $name,
+                    $subscriberName,
                     EventSubscriber::class
                 ));
             }

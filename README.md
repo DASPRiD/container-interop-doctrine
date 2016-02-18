@@ -61,3 +61,25 @@ For container specific configurations, there are a few examples provided in the 
 A complete example configuration can be found in the [example/config.php](example/config.php). Please note that the
 values in there are the defaults, and don't have to be supplied when you are not changing them. Keep your own
 configuration as minimal as possible.
+
+## Using the Doctrine CLI
+
+In order to be able to use the CLI tool of Doctrine, you need to set-up a ```cli-config.php``` file in your project
+directory. That file is generally quite short, and should look something like this for you:
+
+```php
+<?php
+require 'my-bootstrap.php';
+
+$cli->setHelperSet(new \Symfony\Component\Console\Helper\HelperSet([
+    'em' => new \Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper(
+        $container->get('doctrine.entity_manager.orm_default')
+    ),
+]));
+```
+
+After that, you can simply invoke ```php vendor/bin/doctrine```. It gets a little trickier when you have multiple entity
+managers. Doctrine itself has no way to handle that itself, so a possible way would be to have two separate directories
+with two unique ```cli-config.php``` files. You then invoke the doctrine CLI from each respective directory. Since the
+CLI is looking for the config file in the current working directory, it will then always use the one from the directory
+you are currently in.

@@ -46,9 +46,21 @@ class ConnectionFactoryTest extends PHPUnit_Framework_TestCase
         // with the right backtrace, and test the other defaults with a pure memory-database later.
 
         try {
-            $factory($this->prophesize(ContainerInterface::class)->reveal());
+            $connection = $factory($this->prophesize(ContainerInterface::class)->reveal());
+
+            // Oh, this tricky little HHVM bitch, doesn't try to connect till we do something with the connection!
+            $connection->connect();
         } catch (ConnectionException $e) {
-            $this->assertContains("Access denied for user ''@'localhost' (using password: NO)", $e->getMessage());
+            $expectedUsername = '';
+
+            if (defined('HHVM_VERSION')) {
+                $expectedUsername = posix_getpwuid(posix_geteuid())['name'];
+            }
+
+            $this->assertContains(sprintf(
+                "Access denied for user '%s'@'localhost' (using password: NO)",
+                $expectedUsername
+            ), $e->getMessage());
 
             foreach ($e->getTrace() as $entry) {
                 if ('Doctrine\DBAL\Driver\PDOMySql\Driver' === $entry['class']) {

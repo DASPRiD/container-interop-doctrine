@@ -47,6 +47,19 @@ class EventManagerFactoryTest extends PHPUnit_Framework_TestCase
         $factory($this->buildContainer(1)->reveal());
     }
 
+    public function testInvalidStringSubscriber()
+    {
+        $container = $this->buildContainer('NonExistentClass');
+        $container->has('NonExistentClass')->willReturn(false);
+
+        $factory = new EventManagerFactory();
+        $this->setExpectedException(
+            DomainException::class,
+            'Invalid event subscriber "NonExistentClass" given'
+        );
+        $factory($container->reveal());
+    }
+
     public function testInstanceSubscriber()
     {
         $factory = new EventManagerFactory();

@@ -31,14 +31,14 @@ class ConnectionFactory extends AbstractFactory
             'configuration' => $configKey,
             'event_manager' => $configKey,
             'params' => [],
-            'doctirne_mapping_types' => [],
+            'doctrine_mapping_types' => [],
             'doctrine_commented_types' => [],
         ];
 
         $params = $config['params'] + [
             'driverClass' => $config['driver_class'],
             'wrapperClass' => $config['wrapper_class'],
-            'pdo' => $config['pdo'],
+            'pdo' => is_string($config['pdo']) ? $container->get($config['pdo']) : $config['pdo'],
         ];
 
         $connection = DriverManager::getConnection(
@@ -49,11 +49,11 @@ class ConnectionFactory extends AbstractFactory
 
         $platform = $connection->getDatabasePlatform();
 
-        foreach ($connection['doctrine_mapping_types'] as $dbType => $doctrineType) {
+        foreach ($config['doctrine_mapping_types'] as $dbType => $doctrineType) {
             $platform->registerDoctrineTypeMapping($dbType, $doctrineType);
         }
 
-        foreach ($connection['doctrine_commented_types'] as $doctrineType) {
+        foreach ($config['doctrine_commented_types'] as $doctrineType) {
             $platform->markDoctrineTypeCommented($doctrineType);
         }
 

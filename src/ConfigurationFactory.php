@@ -85,7 +85,9 @@ class ConfigurationFactory extends AbstractFactory
         $configuration->setMetadataCacheImpl($container->get(sprintf('doctrine.cache.%s', $config['metadata_cache'])));
         $configuration->setQueryCacheImpl($container->get(sprintf('doctrine.cache.%s', $config['query_cache'])));
         $configuration->setResultCacheImpl($container->get(sprintf('doctrine.cache.%s', $config['result_cache'])));
-        $configuration->setHydrationCacheImpl($container->get(sprintf('doctrine.cache.%s', $config['hydration_cache'])));
+        $configuration->setHydrationCacheImpl($container->get(
+            sprintf('doctrine.cache.%s', $config['hydration_cache'])
+        ));
         $configuration->setMetadataDriverImpl($container->get(sprintf('doctrine.driver.%s', $config['driver'])));
 
         if (is_string($config['naming_strategy'])) {

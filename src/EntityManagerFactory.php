@@ -18,6 +18,11 @@ use Interop\Container\ContainerInterface;
 class EntityManagerFactory extends AbstractFactory
 {
     /**
+     * @var bool
+     */
+    private static $areTypesRegistered = false;
+
+    /**
      * {@inheritdoc}
      */
     protected function createWithConfig(ContainerInterface $container, $configKey)
@@ -27,9 +32,38 @@ class EntityManagerFactory extends AbstractFactory
             'configuration' => $configKey,
         ];
 
+        $this->registerTypes($container);
+
         return EntityManager::create(
             $container->get(sprintf('doctrine.connection.%s', $config['connection'])),
             $container->get(sprintf('doctrine.configuration.%s', $config['configuration']))
         );
+    }
+
+    /**
+     * Registers all declared typed, if not already done.
+     *
+     * @param ContainerInterface $container
+     */
+    private function registerTypes(ContainerInterface $container)
+    {
+        if (self::$areTypesRegistered) {
+            return;
+        }
+
+        $applicationConfig = $container->has('config') ? $container->get('config') : [];
+        $doctrineConfig = array_key_exists('doctrine', $applicationConfig) ? $applicationConfig['doctrine'] : [];
+        $typesConfig = array_key_exists('types', $doctrineConfig) ? $doctrineConfig['types'] : [];
+
+        foreach ($typesConfig as $name => $className) {
+            if (Type::hasType($name)) {
+                Type::overrideType($name, $className);
+                continue;
+            }
+
+            Type::addType($name, $className);
+        }
+
+        self::$areTypesRegistered = true;
     }
 }

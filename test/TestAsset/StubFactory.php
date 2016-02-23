@@ -29,4 +29,12 @@ class StubFactory extends AbstractFactory
     {
         return parent::retrieveConfig($container, $configKey, $section);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultConfig($configKey)
+    {
+        return [];
+    }
 }

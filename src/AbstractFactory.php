@@ -74,6 +74,14 @@ abstract class AbstractFactory
     abstract protected function createWithConfig(ContainerInterface $container, $configKey);
 
     /**
+     * Returns the default config.
+     *
+     * @param string $configKey
+     * @return array
+     */
+    abstract protected function getDefaultConfig($configKey);
+
+    /**
      * Retrieves the config for a specific section.
      *
      * @param ContainerInterface $container
@@ -88,10 +96,10 @@ abstract class AbstractFactory
         $sectionConfig = array_key_exists($section, $doctrineConfig) ? $doctrineConfig[$section] : [];
 
         if (array_key_exists($configKey, $sectionConfig)) {
-            return $sectionConfig[$configKey];
+            return $sectionConfig[$configKey] + $this->getDefaultConfig($configKey);
         }
 
-        return [];
+        return $this->getDefaultConfig($configKey);
     }
 
     /**

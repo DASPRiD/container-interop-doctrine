@@ -27,12 +27,9 @@ class EntityManagerFactory extends AbstractFactory
      */
     protected function createWithConfig(ContainerInterface $container, $configKey)
     {
-        $config = $this->retrieveConfig($container, $configKey, 'entity_manager') + [
-            'connection' => $configKey,
-            'configuration' => $configKey,
-        ];
-
         $this->registerTypes($container);
+
+        $config = $this->retrieveConfig($container, $configKey, 'entity_manager');
 
         return EntityManager::create(
             $this->retrieveDependency(
@@ -48,6 +45,17 @@ class EntityManagerFactory extends AbstractFactory
                 ConfigurationFactory::class
             )
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultConfig($configKey)
+    {
+        return [
+            'connection' => $configKey,
+            'configuration' => $configKey,
+        ];
     }
 
     /**

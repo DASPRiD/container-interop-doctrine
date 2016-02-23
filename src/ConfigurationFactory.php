@@ -25,38 +25,7 @@ class ConfigurationFactory extends AbstractFactory
      */
     protected function createWithConfig(ContainerInterface $container, $configKey)
     {
-        $config = $this->retrieveConfig($container, $configKey, 'configuration') + [
-            'result_cache' => 'array',
-            'metadata_cache' => 'array',
-            'query_cache' => 'array',
-            'result_cache' => 'array',
-            'hydration_cache' => 'array',
-            'driver' => $configKey,
-            'auto_generate_proxy_classes' => true,
-            'proxy_dir' => 'data/cache/DoctrineEntityProxy',
-            'proxy_namespace' => 'DoctrineEntityProxy',
-            'entity_namespaces' => [],
-            'datetime_functions' => [],
-            'string_functions' => [],
-            'numeric_functions' => [],
-            'filters' => [],
-            'named_queries' => [],
-            'named_native_queries' => [],
-            'custom_hydration_modes' => [],
-            'naming_strategy' => null,
-            'default_repository_class_name' => null,
-            'repository_factory' => null,
-            'class_metadata_factory_name' => null,
-            'entity_listener_resolver' => null,
-            'second_level_cache' => [
-                'enabled' => false,
-                'default_lifetime' => 3600,
-                'default_lock_lifetime' => 60,
-                'file_lock_region_directory' => '',
-                'regtions' => [],
-            ],
-            'sql_logger' => null,
-        ];
+        $config = $this->retrieveConfig($container, $configKey, 'configuration');
 
         $configuration = new Configuration();
         $configuration->setProxyDir($config['proxy_dir']);
@@ -168,5 +137,44 @@ class ConfigurationFactory extends AbstractFactory
         }
 
         return $configuration;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultConfig($configKey)
+    {
+        return [
+            'result_cache' => 'array',
+            'metadata_cache' => 'array',
+            'query_cache' => 'array',
+            'result_cache' => 'array',
+            'hydration_cache' => 'array',
+            'driver' => $configKey,
+            'auto_generate_proxy_classes' => true,
+            'proxy_dir' => 'data/cache/DoctrineEntityProxy',
+            'proxy_namespace' => 'DoctrineEntityProxy',
+            'entity_namespaces' => [],
+            'datetime_functions' => [],
+            'string_functions' => [],
+            'numeric_functions' => [],
+            'filters' => [],
+            'named_queries' => [],
+            'named_native_queries' => [],
+            'custom_hydration_modes' => [],
+            'naming_strategy' => null,
+            'default_repository_class_name' => null,
+            'repository_factory' => null,
+            'class_metadata_factory_name' => null,
+            'entity_listener_resolver' => null,
+            'second_level_cache' => [
+                'enabled' => false,
+                'default_lifetime' => 3600,
+                'default_lock_lifetime' => 60,
+                'file_lock_region_directory' => '',
+                'regtions' => [],
+            ],
+            'sql_logger' => null,
+        ];
     }
 }

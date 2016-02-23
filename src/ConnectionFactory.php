@@ -24,17 +24,7 @@ class ConnectionFactory extends AbstractFactory
      */
     protected function createWithConfig(ContainerInterface $container, $configKey)
     {
-        $config = $this->retrieveConfig($container, $configKey, 'connection') + [
-            'driver_class' => PdoMysqlDriver::class,
-            'wrapper_class' => null,
-            'pdo' => null,
-            'configuration' => $configKey,
-            'event_manager' => $configKey,
-            'params' => [],
-            'doctrine_mapping_types' => [],
-            'doctrine_commented_types' => [],
-        ];
-
+        $config = $this->retrieveConfig($container, $configKey, 'connection');
         $params = $config['params'] + [
             'driverClass' => $config['driver_class'],
             'wrapperClass' => $config['wrapper_class'],
@@ -67,5 +57,22 @@ class ConnectionFactory extends AbstractFactory
         }
 
         return $connection;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultConfig($configKey)
+    {
+        return [
+            'driver_class' => PdoMysqlDriver::class,
+            'wrapper_class' => null,
+            'pdo' => null,
+            'configuration' => $configKey,
+            'event_manager' => $configKey,
+            'params' => [],
+            'doctrine_mapping_types' => [],
+            'doctrine_commented_types' => [],
+        ];
     }
 }

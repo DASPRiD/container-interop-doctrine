@@ -9,7 +9,6 @@
 
 namespace ContainerInteropDoctrine;
 
-use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Cache\CacheConfiguration;
 use Doctrine\ORM\Cache\DefaultCacheFactory;
 use Doctrine\ORM\Cache\RegionsConfiguration;
@@ -82,13 +81,36 @@ class ConfigurationFactory extends AbstractFactory
             $configuration->addFilter($name, $className);
         }
 
-        $configuration->setMetadataCacheImpl($container->get(sprintf('doctrine.cache.%s', $config['metadata_cache'])));
-        $configuration->setQueryCacheImpl($container->get(sprintf('doctrine.cache.%s', $config['query_cache'])));
-        $configuration->setResultCacheImpl($container->get(sprintf('doctrine.cache.%s', $config['result_cache'])));
-        $configuration->setHydrationCacheImpl($container->get(
-            sprintf('doctrine.cache.%s', $config['hydration_cache'])
+        $configuration->setMetadataCacheImpl($this->retrieveDependency(
+            $container,
+            $config['metadata_cache'],
+            'cache',
+            CacheFactory::class
         ));
-        $configuration->setMetadataDriverImpl($container->get(sprintf('doctrine.driver.%s', $config['driver'])));
+        $configuration->setQueryCacheImpl($this->retrieveDependency(
+            $container,
+            $config['query_cache'],
+            'cache',
+            CacheFactory::class
+        ));
+        $configuration->setResultCacheImpl($this->retrieveDependency(
+            $container,
+            $config['result_cache'],
+            'cache',
+            CacheFactory::class
+        ));
+        $configuration->setHydrationCacheImpl($this->retrieveDependency(
+            $container,
+            $config['hydration_cache'],
+            'cache',
+            CacheFactory::class
+        ));
+        $configuration->setMetadataDriverImpl($this->retrieveDependency(
+            $container,
+            $config['driver'],
+            'driver',
+            DriverFactory::class
+        ));
 
         if (is_string($config['naming_strategy'])) {
             $configuration->setNamingStrategy($container->get($config['naming_strategy']));

@@ -44,12 +44,18 @@ class ConnectionFactoryTest extends PHPUnit_Framework_TestCase
         }
 
         $factory = new ConnectionFactory();
+        $container = $this->prophesize(ContainerInterface::class);
+        $container->has('config')->willReturn(false);
+        $container->has('doctrine.configuration.orm_default')->willReturn(true);
+        $container->get('doctrine.configuration.orm_default')->willReturn($this->configuration);
+        $container->has('doctrine.event_manager.orm_default')->willReturn(true);
+        $container->get('doctrine.event_manager.orm_default')->willReturn($this->eventManger);
 
         // This is actually quite tricky. We cannot really test the pure defaults, as that would require a MySQL
         // connection without a username and password. Since that can't work, we just verify that we get an exception
         // with the right backtrace, and test the other defaults with a pure memory-database later.
         try {
-            $factory($this->prophesize(ContainerInterface::class)->reveal());
+            $factory($container->reveal());
         } catch (ConnectionException $e) {
             $this->assertContains("Access denied for user ''@'localhost' (using password: NO)", $e->getMessage());
 
@@ -163,7 +169,9 @@ class ConnectionFactoryTest extends PHPUnit_Framework_TestCase
             ],
         ]);
 
+        $container->has(sprintf('doctrine.configuration.%s', $configurationKey))->willReturn(true);
         $container->get(sprintf('doctrine.configuration.%s', $configurationKey))->willReturn($this->configuration);
+        $container->has(sprintf('doctrine.event_manager.%s', $eventManagerKey))->willReturn(true);
         $container->get(sprintf('doctrine.event_manager.%s', $eventManagerKey))->willReturn($this->eventManger);
 
         return $container;

@@ -43,10 +43,19 @@ class ConnectionFactory extends AbstractFactory
 
         $connection = DriverManager::getConnection(
             $params,
-            $container->get(sprintf('doctrine.configuration.%s', $config['configuration'])),
-            $container->get(sprintf('doctrine.event_manager.%s', $config['event_manager']))
+            $this->retrieveDependency(
+                $container,
+                $config['configuration'],
+                'configuration',
+                ConfigurationFactory::class
+            ),
+            $this->retrieveDependency(
+                $container,
+                $config['event_manager'],
+                'event_manager',
+                EventManagerFactory::class
+            )
         );
-
         $platform = $connection->getDatabasePlatform();
 
         foreach ($config['doctrine_mapping_types'] as $dbType => $doctrineType) {

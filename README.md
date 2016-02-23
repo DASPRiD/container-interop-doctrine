@@ -20,17 +20,13 @@ $ composer require dasprid/container-interop-doctrine
 
 ## Configuration
 
-In the general case where you are only using a single connection, it's enough to define the following factories in your
-dependency container configuration:
+In the general case where you are only using a single connection, it's enough to define the entity manager factory:
 
 ```php
 return [
     'dependencies' => [
         'factories' => [
-            'doctrine.connection.orm_default' => \ContainerInteropDoctrine\ConnectionFactory::class,
-            'doctrine.configuration.orm_default' => \ContainerInteropDoctrine\ConfigurationFactory::class,
             'doctrine.entity_manager.orm_default' => \ContainerInteropDoctrine\EntityManagerFactory::class,
-            'doctrine.event_manager.orm_default' => \ContainerInteropDoctrine\EventManagerFactory::class,
         ],
     ],
 ];
@@ -43,16 +39,25 @@ variants of the factories:
 return [
     'dependencies' => [
         'factories' => [
-            'doctrine.connection.orm_other' => [\ContainerInteropDoctrine\ConnectionFactory::class, 'orm_other'],
-            'doctrine.configuration.orm_other' => [\ContainerInteropDoctrine\ConfigurationFactory::class, 'orm_other'],
             'doctrine.entity_manager.orm_other' => [\ContainerInteropDoctrine\EntityManagerFactory::class, 'orm_other'],
-            'doctrine.event_manager.orm_other' => [\ContainerInteropDoctrine\EventManagerFactory::class, 'orm_other'],
         ],
     ],
 ];
 ```
 
-For container specific configurations, there are a few examples provided in the example directory:
+Each factory supplied by this package will by default look for a registered factory in the container. If it cannot find
+one, it will automatically pull its dependencies from on-the-fly created factories. This saves you the hassle of
+registering factories in your container which you may not need at all. Of course, you can always register those
+factories when required. The following additional factories are available:
+
+- ```\ContainerInteropDoctrine\CacheFactory``` (doctrine.cache.*)
+- ```\ContainerInteropDoctrine\ConnectionFactory``` (doctrine.connection.*)
+- ```\ContainerInteropDoctrine\ConfigurationFactory``` (doctrine.configuration.*)
+- ```\ContainerInteropDoctrine\DriverFactory``` (doctrine.driver.*)
+- ```\ContainerInteropDoctrine\EventManagerFactory``` (doctrine.event_manager.*)
+
+Each of those factories supports the same static behavior as the entity manager factory. For container specific
+configurations, there are a few examples provided in the example directory:
 
 - [Aura.Di](example/aura-di.php)
 - [PimpleInterop](example/pimple-interop.php)

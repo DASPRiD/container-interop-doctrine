@@ -32,7 +32,9 @@ class EntityManagerFactoryTest extends PHPUnit_Framework_TestCase
 
         $container = $this->prophesize(ContainerInterface::class);
         $container->has('config')->willReturn(false);
+        $container->has('doctrine.connection.orm_default')->willReturn(true);
         $container->get('doctrine.connection.orm_default')->willReturn($connection);
+        $container->has('doctrine.configuration.orm_default')->willReturn(true);
         $container->get('doctrine.configuration.orm_default')->willReturn($configuration);
 
         $factory = new EntityManagerFactory();
@@ -49,7 +51,9 @@ class EntityManagerFactoryTest extends PHPUnit_Framework_TestCase
 
         $container = $this->prophesize(ContainerInterface::class);
         $container->has('config')->willReturn(false);
+        $container->has('doctrine.connection.orm_other')->willReturn(true);
         $container->get('doctrine.connection.orm_other')->willReturn($connection);
+        $container->has('doctrine.configuration.orm_other')->willReturn(true);
         $container->get('doctrine.configuration.orm_other')->willReturn($configuration);
 
         $factory = new EntityManagerFactory('orm_other');
@@ -76,7 +80,9 @@ class EntityManagerFactoryTest extends PHPUnit_Framework_TestCase
                 ],
             ],
         ]);
+        $container->has('doctrine.connection.orm_foo')->willReturn(true);
         $container->get('doctrine.connection.orm_foo')->willReturn($connection);
+        $container->has('doctrine.configuration.orm_bar')->willReturn(true);
         $container->get('doctrine.configuration.orm_bar')->willReturn($configuration);
 
         $factory = new EntityManagerFactory();

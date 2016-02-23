@@ -35,8 +35,18 @@ class EntityManagerFactory extends AbstractFactory
         $this->registerTypes($container);
 
         return EntityManager::create(
-            $container->get(sprintf('doctrine.connection.%s', $config['connection'])),
-            $container->get(sprintf('doctrine.configuration.%s', $config['configuration']))
+            $this->retrieveDependency(
+                $container,
+                $config['connection'],
+                'connection',
+                ConfigurationFactory::class
+            ),
+            $this->retrieveDependency(
+                $container,
+                $config['configuration'],
+                'configuration',
+                ConfigurationFactory::class
+            )
         );
     }
 

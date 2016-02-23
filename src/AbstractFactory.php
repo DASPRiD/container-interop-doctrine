@@ -93,4 +93,27 @@ abstract class AbstractFactory
 
         return [];
     }
+
+    /**
+     * Retrieves a dependency through the container.
+     *
+     * If the container does not know about the dependency, it is pulled from a fresh factory. This saves the user from
+     * registering factories which they are not gonna access themself at all, and thus minimized configuration.
+     *
+     * @param ContainerInterface $container
+     * @param string $configKey
+     * @param string $section
+     * @param string $factoryClassName
+     * @return mixed
+     */
+    protected function retrieveDependency(ContainerInterface $container, $configKey, $section, $factoryClassName)
+    {
+        $containerKey = sprintf('doctrine.%s.%s', $section, $configKey);
+
+        if ($container->has($containerKey)) {
+            return $container->get($containerKey);
+        }
+
+        return (new $factoryClassName($configKey))->__invoke($container);
+    }
 }

@@ -58,6 +58,61 @@ return [
                 'subscribers' => [],
             ],
         ],
+        'driver' => [
+            'orm_default' => [
+                'class' => null,
+                'paths' => [],
+                'extension' => null,
+                'drivers' => [],
+            ]
+        ],
+        'cache' => [
+            'apcu' => [
+                'class' => \Doctrine\Common\Cache\ApcuCache::class,
+                'namespace' => 'container-interop-doctrine',
+            ],
+            'array' => [
+                'class' => \Doctrine\Common\Cache\ArrayCache::class,
+                'namespace' => 'container-interop-doctrine',
+            ],
+            'filesystem' => [
+                'class' => \Doctrine\Common\Cache\FilesystemCache::class,
+                'directory' => 'data/cache/DoctrineCache',
+                'namespace' => 'container-interop-doctrine',
+            ],
+            'memcache' => [
+                'class' => \Doctrine\Common\Cache\MemcacheCache::class,
+                'instance' => 'my_memcache_alias',
+                'namespace' => 'container-interop-doctrine',
+            ],
+            'memcached' => [
+                'class' => \Doctrine\Common\Cache\MemcachedCache::class,
+                'instance' => 'my_memcached_alias',
+                'namespace' => 'container-interop-doctrine',
+            ],
+            'predis' => [
+                'class' => \Doctrine\Common\Cache\PredisCache::class,
+                'instance' => 'my_predis_alias',
+                'namespace' => 'container-interop-doctrine',
+            ],
+            'redis' => [
+                'class' => \Doctrine\Common\Cache\RedisCache::class,
+                'instance' => 'my_redis_alias',
+                'namespace' => 'container-interop-doctrine',
+            ],
+            'wincache' => [
+                'class' => \Doctrine\Common\Cache\WinCacheCache::class,
+                'namespace' => 'container-interop-doctrine',
+            ],
+            'xcache' => [
+                'class' => \Doctrine\Common\Cache\XcacheCache::class,
+                'namespace' => 'container-interop-doctrine',
+            ],
+            'zenddata' => [
+                'class' => \Doctrine\Common\Cache\ZendDataCache::class,
+                'namespace' => 'container-interop-doctrine',
+            ],
+        ],
         'types' => [],
     ],
 ];

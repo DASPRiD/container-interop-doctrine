@@ -65,9 +65,10 @@ configurations, there are a few examples provided in the example directory:
 
 ## Example configuration
 
-A complete example configuration can be found in the [example/config.php](example/config.php). Please note that the
-values in there are the defaults, and don't have to be supplied when you are not changing them. Keep your own
-configuration as minimal as possible.
+A complete example configuration can be found in [example/full-config.php](example/full-config.php). Please note that
+the values in there are the defaults, and don't have to be supplied when you are not changing them. Keep your own
+configuration as minimal as possible. A minimal configuration can be found in
+[example/minimal-config.php](example/minimal-config.php)
 
 ## Using the Doctrine CLI
 

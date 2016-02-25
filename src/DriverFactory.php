@@ -48,7 +48,6 @@ class DriverFactory extends AbstractFactory
         if (AnnotationDriver::class === $config['class'] || is_subclass_of($config['class'], AnnotationDriver::class)) {
             $this->registerAnnotationLoader();
 
-            // @todo $config['cache'] needs to be an instance currently
             $driver = new $config['class'](
                 new CachedReader(
                     new AnnotationReader(),

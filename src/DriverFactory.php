@@ -10,6 +10,7 @@
 namespace ContainerInteropDoctrine;
 
 use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\CachedReader;
 use Doctrine\Common\Persistence\Mapping\Driver\AnnotationDriver;
 use Doctrine\Common\Persistence\Mapping\Driver\DefaultFileLocator;
@@ -40,6 +41,13 @@ class DriverFactory extends AbstractFactory
         }
 
         if (AnnotationDriver::class === $config['class'] || is_subclass_of($config['class'], AnnotationDriver::class)) {
+            // @todo this may not be the best place to instantiate?
+            AnnotationRegistry::registerLoader(
+                function ($className) {
+                    return class_exists($className);
+                }
+            );
+
             // @todo $config['cache'] needs to be an instance currently
             $driver = new $config['class'](
                 new CachedReader(new AnnotationReader(), $config['cache']),

@@ -26,6 +26,11 @@ use Interop\Container\ContainerInterface;
 class DriverFactory extends AbstractFactory
 {
     /**
+     * @var bool
+     */
+    private static $annotationLoaderRegistered = false;
+
+    /**
      * {@inheritdoc}
      */
     protected function createWithConfig(ContainerInterface $container, $configKey)
@@ -41,12 +46,7 @@ class DriverFactory extends AbstractFactory
         }
 
         if (AnnotationDriver::class === $config['class'] || is_subclass_of($config['class'], AnnotationDriver::class)) {
-            // @todo this may not be the best place to instantiate?
-            AnnotationRegistry::registerLoader(
-                function ($className) {
-                    return class_exists($className);
-                }
-            );
+            $this->registerAnnotationLoader();
 
             // @todo $config['cache'] needs to be an instance currently
             $driver = new $config['class'](
@@ -94,5 +94,23 @@ class DriverFactory extends AbstractFactory
             'extension' => null,
             'drivers' => [],
         ];
+    }
+
+    /**
+     * Registers the annotation loader
+     */
+    private function registerAnnotationLoader()
+    {
+        if (self::$annotationLoaderRegistered) {
+            return;
+        }
+
+        AnnotationRegistry::registerLoader(
+            function ($className) {
+                return class_exists($className);
+            }
+        );
+
+        self::$annotationLoaderRegistered = true;
     }
 }

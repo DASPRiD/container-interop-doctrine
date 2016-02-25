@@ -3,12 +3,8 @@ return [
     'doctrine' => [
         'connection' => [
             'orm_default' => [
-                'driverClass' => \Doctrine\DBAL\Driver\Mysqli\MysqliConnection::class,
                 'params' => [
-                    'host'     => 'localhost',
-                    'user'     => 'username',
-                    'password' => 'password',
-                    'dbname'   => 'database',
+                    'url' => 'mysql://user:password@localhost/database',
                 ],
             ],
         ],

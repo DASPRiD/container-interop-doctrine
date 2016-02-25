@@ -3,12 +3,18 @@ return [
     'doctrine' => [
         'connection' => [
             'orm_default' => [
-                'url' => 'mysql://user:passeord@localhost/database',
+                'driverClass' => \Doctrine\DBAL\Driver\Mysqli\MysqliConnection::class,
+                'params' => [
+                    'host'     => 'localhost',
+                    'user'     => 'username',
+                    'password' => 'password',
+                    'dbname'   => 'database',
+                ],
             ],
         ],
         'driver' => [
             'orm_default' => [
-                'class' => \Doctrine\Common\Persistence\Mapping\Driver\MappingDriver::class,
+                'class' => \Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain::class,
                 'drivers' => [
                     'My\Entity' => 'my_entity',
                 ],

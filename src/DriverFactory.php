@@ -28,7 +28,7 @@ class DriverFactory extends AbstractFactory
     /**
      * @var bool
      */
-    private static $annotationLoaderRegistered = false;
+    private static $isAnnotationLoaderRegistered = false;
 
     /**
      * {@inheritdoc}
@@ -104,7 +104,7 @@ class DriverFactory extends AbstractFactory
      */
     private function registerAnnotationLoader()
     {
-        if (self::$annotationLoaderRegistered) {
+        if (self::$isAnnotationLoaderRegistered) {
             return;
         }
 
@@ -114,6 +114,6 @@ class DriverFactory extends AbstractFactory
             }
         );
 
-        self::$annotationLoaderRegistered = true;
+        self::$isAnnotationLoaderRegistered = true;
     }
 }

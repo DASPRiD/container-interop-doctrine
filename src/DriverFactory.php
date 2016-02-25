@@ -50,7 +50,10 @@ class DriverFactory extends AbstractFactory
 
             // @todo $config['cache'] needs to be an instance currently
             $driver = new $config['class'](
-                new CachedReader(new AnnotationReader(), $config['cache']),
+                new CachedReader(
+                    new AnnotationReader(),
+                    $this->retrieveDependency($container, $config['cache'], 'cache', CacheFactory::class)
+                ),
                 $config['paths']
             );
         } else {

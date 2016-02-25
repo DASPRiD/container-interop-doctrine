@@ -10,6 +10,7 @@
 namespace ContainerInteropDoctrine;
 
 use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\CachedReader;
 use Doctrine\Common\Persistence\Mapping\Driver\AnnotationDriver;
 use Doctrine\Common\Persistence\Mapping\Driver\DefaultFileLocator;
@@ -24,6 +25,11 @@ use Interop\Container\ContainerInterface;
  */
 class DriverFactory extends AbstractFactory
 {
+    /**
+     * @var bool
+     */
+    private static $isAnnotationLoaderRegistered = false;
+
     /**
      * {@inheritdoc}
      */
@@ -40,8 +46,13 @@ class DriverFactory extends AbstractFactory
         }
 
         if (AnnotationDriver::class === $config['class'] || is_subclass_of($config['class'], AnnotationDriver::class)) {
+            $this->registerAnnotationLoader();
+
             $driver = new $config['class'](
-                new CachedReader(new AnnotationReader(), $config['cache']),
+                new CachedReader(
+                    new AnnotationReader(),
+                    $this->retrieveDependency($container, $config['cache'], 'cache', CacheFactory::class)
+                ),
                 $config['paths']
             );
         } else {
@@ -85,5 +96,23 @@ class DriverFactory extends AbstractFactory
             'extension' => null,
             'drivers' => [],
         ];
+    }
+
+    /**
+     * Registers the annotation loader
+     */
+    private function registerAnnotationLoader()
+    {
+        if (self::$isAnnotationLoaderRegistered) {
+            return;
+        }
+
+        AnnotationRegistry::registerLoader(
+            function ($className) {
+                return class_exists($className);
+            }
+        );
+
+        self::$isAnnotationLoaderRegistered = true;
     }
 }

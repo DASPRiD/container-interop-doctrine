@@ -36,7 +36,7 @@ class EntityManagerFactory extends AbstractFactory
                 $container,
                 $config['connection'],
                 'connection',
-                ConfigurationFactory::class
+                ConnectionFactory::class
             ),
             $this->retrieveDependency(
                 $container,

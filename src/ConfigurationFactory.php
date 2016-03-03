@@ -145,7 +145,6 @@ class ConfigurationFactory extends AbstractFactory
     protected function getDefaultConfig($configKey)
     {
         return [
-            'result_cache' => 'array',
             'metadata_cache' => 'array',
             'query_cache' => 'array',
             'result_cache' => 'array',

@@ -9,6 +9,7 @@
 
 namespace ContainerInteropDoctrine;
 
+use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
 

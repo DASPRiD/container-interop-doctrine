@@ -77,13 +77,13 @@ directory. That file is generally quite short, and should look something like th
 
 ```php
 <?php
-require 'my-bootstrap.php';
+$container = require 'config/container.php';
 
-$cli->setHelperSet(new \Symfony\Component\Console\Helper\HelperSet([
+return new \Symfony\Component\Console\Helper\HelperSet([
     'em' => new \Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper(
         $container->get('doctrine.entity_manager.orm_default')
     ),
-]));
+]);
 ```
 
 After that, you can simply invoke ```php vendor/bin/doctrine```. It gets a little trickier when you have multiple entity

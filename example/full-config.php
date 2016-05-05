@@ -6,7 +6,6 @@ return [
                 'result_cache' => 'array',
                 'metadata_cache' => 'array',
                 'query_cache' => 'array',
-                'result_cache' => 'array',
                 'hydration_cache' => 'array',
                 'driver' => 'orm_default', // Actually defaults to the configuration config key, not hard-coded
                 'auto_generate_proxy_classes' => true,

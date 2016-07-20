@@ -1,5 +1,5 @@
 <?php
-use Zend\ServiceManage\ServiceManager;
+use Zend\ServiceManager\ServiceManager;
 
 // Standard config keys
 $container = new ServiceManager([

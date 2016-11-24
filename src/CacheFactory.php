@@ -48,7 +48,7 @@ class CacheFactory extends AbstractFactory
 
         switch ($config['class']) {
             case FilesystemCache::class:
-                $cache = new $config['class']();
+                $cache = new $config['class']($config['directory']);
                 break;
 
             case PredisCache::class:

@@ -46,5 +46,4 @@ class CacheFactoryTest extends PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(FilesystemCache::class, $cacheInstance);
     }
-
 }

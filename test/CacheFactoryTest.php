@@ -25,9 +25,20 @@ class CacheFactoryTest extends PHPUnit_Framework_TestCase
     public function testFileSystemCacheConstructor()
     {
 
+        $config = [
+            'doctrine' => [
+                'cache' => [
+                    'filesystem' => [
+                        'class'     => FilesystemCache::class,
+                        'directory' => 'test',
+                    ],
+                ],
+            ],
+        ];
+
         $container = $this->prophesize(ContainerInterface::class);
         $container->has('config')->willReturn(true);
-        $container->get('config')->willReturn(['doctrine'=>['cache'=>['filesystem'=>['class' => FilesystemCache::class,'directory'=>'test']]]]);
+        $container->get('config')->willReturn($config);
 
 
         $factory = new CacheFactory('filesystem');

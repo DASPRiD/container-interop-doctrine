@@ -42,6 +42,6 @@ class DriverFactoryTest extends TestCase
         $factory = new DriverFactory();
 
         $driver = $factory($container->reveal());
-        $this->assertSame($globalBasename, $driver->getGlobalBasename());
+        static::assertSame($globalBasename, $driver->getGlobalBasename());
     }
 }

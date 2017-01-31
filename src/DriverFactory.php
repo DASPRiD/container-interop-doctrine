@@ -73,6 +73,10 @@ class DriverFactory extends AbstractFactory
             $driver->setLocator(new DefaultFileLocator($locator->getPaths(), $config['extension']));
         }
 
+        if (isset($config['global_basename']) && $driver instanceof FileDriver) {
+            $driver->setGlobalBasename($config['global_basename']);
+        }
+
         if ($driver instanceof MappingDriverChain) {
             foreach ($config['drivers'] as $namespace => $driverName) {
                 if (null === $driverName) {

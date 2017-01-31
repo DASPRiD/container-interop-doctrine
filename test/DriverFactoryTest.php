@@ -3,8 +3,6 @@
  * @license See the file LICENSE for copying permission
  */
 
-declare(strict_types = 1);
-
 namespace ContainerInteropDoctrineTest;
 
 use OutOfBoundsException;

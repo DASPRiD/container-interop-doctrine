@@ -5,6 +5,7 @@
 
 namespace ContainerInteropDoctrineTest;
 
+use Doctrine\ORM\Mapping\Driver;
 use OutOfBoundsException;
 use ContainerInteropDoctrine\DriverFactory;
 use Interop\Container\ContainerInterface;
@@ -43,5 +44,43 @@ class DriverFactoryTest extends TestCase
 
         $driver = $factory($container->reveal());
         static::assertSame($globalBasename, $driver->getGlobalBasename());
+    }
+
+    /**
+     * @param string $driverClass
+     *
+     * @dataProvider simplifiedDriverClassProvider
+     */
+    public function testItSupportsSettingExtensionInDriversUsingSymfonyFileLocator($driverClass)
+    {
+        $extension = '.foo.bar';
+
+        $container = $this->prophesize(ContainerInterface::class);
+        $container->has('config')->willReturn(true);
+        $container->get('config')->willReturn([
+            'doctrine' => [
+                'driver' => [
+                    'orm_default' => [
+                        'class' => $driverClass,
+                        'extension' => $extension,
+                    ],
+                ],
+            ],
+        ]);
+
+        $factory = new DriverFactory();
+
+        /** @var Driver\SimplifiedXmlDriver $driver */
+        $driver = $factory($container->reveal());
+        static::assertInstanceOf($driverClass, $driver);
+        static::assertSame($extension, $driver->getLocator()->getFileExtension());
+    }
+
+    public function simplifiedDriverClassProvider()
+    {
+        return [
+            [ Driver\SimplifiedXmlDriver::class ],
+            [ Driver\SimplifiedYamlDriver::class ],
+        ];
     }
 }

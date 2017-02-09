@@ -61,14 +61,14 @@ class DriverFactory extends AbstractFactory
             && (FileDriver::class === $config['class'] || is_subclass_of($config['class'], FileDriver::class))
         ) {
             $driver = new $config['class']($config['paths'], $config['extension']);
+
+            if (isset($config['global_basename'])) {
+                $driver->setGlobalBasename($config['global_basename']);
+            }
         }
 
         if (! isset($driver)) {
             $driver = new $config['class']($config['paths']);
-        }
-
-        if (isset($config['global_basename']) && $driver instanceof FileDriver) {
-            $driver->setGlobalBasename($config['global_basename']);
         }
 
         if ($driver instanceof MappingDriverChain) {

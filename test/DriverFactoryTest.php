@@ -43,7 +43,7 @@ class DriverFactoryTest extends TestCase
         $factory = new DriverFactory();
 
         $driver = $factory($container->reveal());
-        static::assertSame($globalBasename, $driver->getGlobalBasename());
+        $this->assertSame($globalBasename, $driver->getGlobalBasename());
     }
 
     /**
@@ -72,8 +72,8 @@ class DriverFactoryTest extends TestCase
 
         /** @var Driver\SimplifiedXmlDriver $driver */
         $driver = $factory($container->reveal());
-        static::assertInstanceOf($driverClass, $driver);
-        static::assertSame($extension, $driver->getLocator()->getFileExtension());
+        $this->assertInstanceOf($driverClass, $driver);
+        $this->assertSame($extension, $driver->getLocator()->getFileExtension());
     }
 
     public function simplifiedDriverClassProvider()

@@ -67,7 +67,7 @@ class DriverFactory extends AbstractFactory
             $driver = new $config['class']($config['paths']);
         }
 
-        if (isset($config['global_basename']) && $driver instanceof FileDriver) {
+        if (array_key_exists('global_basename', $config) && $driver instanceof FileDriver) {
             $driver->setGlobalBasename($config['global_basename']);
         }
 

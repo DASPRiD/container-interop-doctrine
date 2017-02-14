@@ -63,6 +63,7 @@ return [
                 'paths' => [],
                 'extension' => null,
                 'drivers' => [],
+                'global_basename' => null,
             ]
         ],
         'cache' => [

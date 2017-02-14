@@ -55,22 +55,20 @@ class DriverFactory extends AbstractFactory
                 ),
                 $config['paths']
             );
-        } else {
+        }
+
+        if (null !== $config['extension']
+            && (FileDriver::class === $config['class'] || is_subclass_of($config['class'], FileDriver::class))
+        ) {
+            $driver = new $config['class']($config['paths'], $config['extension']);
+        }
+
+        if (! isset($driver)) {
             $driver = new $config['class']($config['paths']);
         }
 
-        if (null !== $config['extension'] && $driver instanceof FileDriver) {
-            $locator = $driver->getLocator();
-
-            if (get_class($locator) !== DefaultFileLocator::class) {
-                throw new Exception\DomainException(sprintf(
-                    'File locator must be a concrete instance of %s, got %s',
-                    DefaultFileLocator::class,
-                    get_class($locator)
-                ));
-            }
-
-            $driver->setLocator(new DefaultFileLocator($locator->getPaths(), $config['extension']));
+        if (array_key_exists('global_basename', $config) && $driver instanceof FileDriver) {
+            $driver->setGlobalBasename($config['global_basename']);
         }
 
         if ($driver instanceof MappingDriverChain) {

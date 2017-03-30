@@ -57,7 +57,8 @@ class CacheFactory extends AbstractFactory
                 break;
 
             case ChainCache::class:
-                $providers = array_map(function($provider) use ($container) {
+                $providers = array_map(
+                    function ($provider) use ($container) {
                         return $this->createWithConfig($container, $provider);
                     },
                     is_array($config['providers']) ? $config['providers'] : []

@@ -11,6 +11,7 @@ namespace ContainerInteropDoctrineTest;
 
 use ContainerInteropDoctrine\AbstractFactory;
 use ContainerInteropDoctrine\CacheFactory;
+use Doctrine\Common\Cache\ChainCache;
 use Doctrine\Common\Cache\FilesystemCache;
 use Interop\Container\ContainerInterface;
 use PHPUnit_Framework_TestCase;
@@ -55,5 +56,29 @@ class CacheFactoryTest extends PHPUnit_Framework_TestCase
         $cacheInstance = $factory($container->reveal());
 
         $this->assertInstanceOf(FilesystemCache::class, $cacheInstance);
+    }
+
+    public function testCacheChainContainsInitializedProviders()
+    {
+        $config = [
+            'doctrine' => [
+                'cache' => [
+                    'chain' => [
+                        'class'     => ChainCache::class,
+                        'providers' => ['array', 'array'],
+                    ],
+                ],
+            ],
+        ];
+
+        $container = $this->prophesize(ContainerInterface::class);
+        $container->has('config')->willReturn(true);
+        $container->get('config')->willReturn($config);
+
+        $factory = new CacheFactory('chain');
+        $cacheInstance = $factory($container->reveal());
+
+        $this->assertInstanceOf(ChainCache::class, $cacheInstance);
+        $this->assertAttributeCount(2, 'cacheProviders', $cacheInstance);
     }
 }

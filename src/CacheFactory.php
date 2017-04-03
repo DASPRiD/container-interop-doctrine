@@ -13,6 +13,7 @@ use Doctrine\Common\Cache\ApcuCache;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Cache\CacheProvider;
+use Doctrine\Common\Cache\ChainCache;
 use Doctrine\Common\Cache\FilesystemCache;
 use Doctrine\Common\Cache\MemcacheCache;
 use Doctrine\Common\Cache\MemcachedCache;
@@ -53,6 +54,16 @@ class CacheFactory extends AbstractFactory
 
             case PredisCache::class:
                 $cache = new $config['class']($instance);
+                break;
+
+            case ChainCache::class:
+                $providers = array_map(
+                    function ($provider) use ($container) {
+                        return $this->createWithConfig($container, $provider);
+                    },
+                    is_array($config['providers']) ? $config['providers'] : []
+                );
+                $cache = new $config['class']($providers);
                 break;
 
             default:
@@ -143,6 +154,13 @@ class CacheFactory extends AbstractFactory
                 return [
                     'class' => ZendDataCache::class,
                     'namespace' => 'container-interop-doctrine',
+                ];
+
+            case 'chain':
+                return [
+                    'class' => ChainCache::class,
+                    'namespace' => 'container-interop-doctrine',
+                    'providers' => [],
                 ];
         }
 

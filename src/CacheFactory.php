@@ -23,7 +23,7 @@ use Doctrine\Common\Cache\WinCacheCache;
 use Doctrine\Common\Cache\XcacheCache;
 use Doctrine\Common\Cache\ZendDataCache;
 use Doctrine\Common\Proxy\Exception\OutOfBoundsException;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * @method Cache __invoke(ContainerInterface $container)

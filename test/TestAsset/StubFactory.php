@@ -10,7 +10,7 @@
 namespace ContainerInteropDoctrineTest\TestAsset;
 
 use ContainerInteropDoctrine\AbstractFactory;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 class StubFactory extends AbstractFactory
 {

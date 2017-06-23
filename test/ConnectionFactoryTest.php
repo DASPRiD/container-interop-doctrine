@@ -13,6 +13,7 @@ use ContainerInteropDoctrine\ConnectionFactory;
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Driver\PDOSqlite\Driver as PDOSqliteDriver;
 use Doctrine\DBAL\Exception\ConnectionException;
+use Doctrine\DBAL\Types\BooleanType;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Configuration;
 use Psr\Container\ContainerInterface;
@@ -144,6 +145,19 @@ class ConnectionFactoryTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($connection->getDatabasePlatform()->isCommentedDoctrineType($type));
     }
 
+    public function testCustomTypeDoctrineMappingTypesInjection()
+    {
+        $factory = new ConnectionFactory();
+        $property = (new \ReflectionObject($factory))->getProperty('areTypesRegistered');
+        $property->setAccessible(true);
+        $property->setValue($factory, false);
+
+        $connection = $factory($this->buildContainer('orm_default', 'orm_default', 'orm_default', [
+            'doctrine_mapping_types' => ['foo' => 'custom_type'],
+        ])->reveal());
+
+        $this->assertTrue($connection->getDatabasePlatform()->hasDoctrineTypeMappingFor('foo'));
+    }
     /**
      * @param string $ownKey
      * @param string $configurationKey
@@ -166,6 +180,9 @@ class ConnectionFactoryTest extends PHPUnit_Framework_TestCase
                         'driver_class' => PDOSqliteDriver::class,
                     ],
                 ],
+                'types' => [
+                    'custom_type' => BooleanType::class
+                ]
             ],
         ]);
 

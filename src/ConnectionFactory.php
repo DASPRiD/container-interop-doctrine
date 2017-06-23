@@ -98,6 +98,7 @@ class ConnectionFactory extends AbstractFactory
         $applicationConfig = $container->has('config') ? $container->get('config') : [];
         $doctrineConfig = array_key_exists('doctrine', $applicationConfig) ? $applicationConfig['doctrine'] : [];
         $typesConfig = array_key_exists('types', $doctrineConfig) ? $doctrineConfig['types'] : [];
+        self::$areTypesRegistered = true;
 
         foreach ($typesConfig as $name => $className) {
             if (Type::hasType($name)) {
@@ -107,7 +108,5 @@ class ConnectionFactory extends AbstractFactory
 
             Type::addType($name, $className);
         }
-
-        self::$areTypesRegistered = true;
     }
 }

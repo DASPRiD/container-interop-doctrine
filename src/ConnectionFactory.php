@@ -13,6 +13,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\PDOMySql\Driver as PdoMysqlDriver;
 use Doctrine\DBAL\DriverManager;
 use Psr\Container\ContainerInterface;
+use Doctrine\DBAL\Types\Type;
 
 /**
  * @method Connection __invoke(ContainerInterface $container)
@@ -20,10 +21,17 @@ use Psr\Container\ContainerInterface;
 class ConnectionFactory extends AbstractFactory
 {
     /**
+     * @var bool
+     */
+    private static $areTypesRegistered = false;
+
+    /**
      * {@inheritdoc}
      */
     protected function createWithConfig(ContainerInterface $container, $configKey)
     {
+        $this->registerTypes($container);
+
         $config = $this->retrieveConfig($container, $configKey, 'connection');
         $params = $config['params'] + [
             'driverClass' => $config['driver_class'],
@@ -74,5 +82,32 @@ class ConnectionFactory extends AbstractFactory
             'doctrine_mapping_types' => [],
             'doctrine_commented_types' => [],
         ];
+    }
+
+    /**
+     * Registers all declared typed, if not already done.
+     *
+     * @param ContainerInterface $container
+     */
+    private function registerTypes(ContainerInterface $container)
+    {
+        if (self::$areTypesRegistered) {
+            return;
+        }
+
+        $applicationConfig = $container->has('config') ? $container->get('config') : [];
+        $doctrineConfig = array_key_exists('doctrine', $applicationConfig) ? $applicationConfig['doctrine'] : [];
+        $typesConfig = array_key_exists('types', $doctrineConfig) ? $doctrineConfig['types'] : [];
+
+        foreach ($typesConfig as $name => $className) {
+            if (Type::hasType($name)) {
+                Type::overrideType($name, $className);
+                continue;
+            }
+
+            Type::addType($name, $className);
+        }
+
+        self::$areTypesRegistered = true;
     }
 }

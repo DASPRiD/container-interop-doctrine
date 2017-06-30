@@ -8,7 +8,7 @@ namespace ContainerInteropDoctrineTest;
 use Doctrine\ORM\Mapping\Driver;
 use OutOfBoundsException;
 use ContainerInteropDoctrine\DriverFactory;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use PHPUnit_Framework_TestCase as TestCase;
 
 class DriverFactoryTest extends TestCase

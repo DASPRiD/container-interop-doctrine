@@ -13,7 +13,7 @@ use ContainerInteropDoctrine\AbstractFactory;
 use ContainerInteropDoctrine\CacheFactory;
 use Doctrine\Common\Cache\ChainCache;
 use Doctrine\Common\Cache\FilesystemCache;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use PHPUnit_Framework_TestCase;
 
 /**

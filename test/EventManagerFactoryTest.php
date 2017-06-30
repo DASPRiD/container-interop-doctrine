@@ -12,7 +12,7 @@ namespace ContainerInteropDoctrineTest;
 use ContainerInteropDoctrine\EventManagerFactory;
 use ContainerInteropDoctrine\Exception\DomainException;
 use ContainerInteropDoctrineTest\TestAsset\StubEventSubscriber;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use PHPUnit_Framework_TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 use stdClass;

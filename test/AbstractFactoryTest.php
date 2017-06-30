@@ -11,7 +11,7 @@ namespace ContainerInteropDoctrineTest;
 
 use ContainerInteropDoctrine\Exception\DomainException;
 use ContainerInteropDoctrineTest\TestAsset\StubFactory;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use PHPUnit_Framework_TestCase;
 
 class AbstractFactoryTest extends PHPUnit_Framework_TestCase
@@ -40,7 +40,7 @@ class AbstractFactoryTest extends PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(
             DomainException::class,
-            'The first argument must be of type Interop\Container\ContainerInterface'
+            'The first argument must be of type Psr\Container\ContainerInterface'
         );
         StubFactory::orm_other();
     }

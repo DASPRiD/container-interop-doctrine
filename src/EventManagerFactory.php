@@ -12,7 +12,7 @@ namespace ContainerInteropDoctrine;
 use ContainerInteropDoctrine\Exception\DomainException;
 use Doctrine\Common\EventManager;
 use Doctrine\Common\EventSubscriber;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * @method EventManager __invoke(ContainerInterface $container)

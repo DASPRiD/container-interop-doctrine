@@ -13,6 +13,7 @@ use ContainerInteropDoctrine\ConnectionFactory;
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Driver\PDOSqlite\Driver as PDOSqliteDriver;
 use Doctrine\DBAL\Exception\ConnectionException;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\BooleanType;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Configuration;
@@ -158,6 +159,28 @@ class ConnectionFactoryTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue($connection->getDatabasePlatform()->hasDoctrineTypeMappingFor('foo'));
     }
+
+    public function testCustomPlatform()
+    {
+        $factory = new ConnectionFactory();
+
+        $config = [
+            'params' => [
+                'platform' => 'custom.platform',
+            ]
+        ];
+
+        $container = $this->buildContainer('orm_default', 'orm_default', 'orm_default', $config);
+
+        $platform = $this->prophesize(AbstractPlatform::class);
+
+        $container->get('custom.platform')->willReturn($platform);
+
+        $connection = $factory($container->reveal());
+
+        $this->assertSame($platform->reveal(), $connection->getDatabasePlatform());
+    }
+
     /**
      * @param string $ownKey
      * @param string $configurationKey

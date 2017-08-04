@@ -39,6 +39,10 @@ class ConnectionFactory extends AbstractFactory
             'pdo' => is_string($config['pdo']) ? $container->get($config['pdo']) : $config['pdo'],
         ];
 
+        if (isset($params['platform'])) {
+            $params['platform'] = $container->get($params['platform']);
+        }
+
         $connection = DriverManager::getConnection(
             $params,
             $this->retrieveDependency(

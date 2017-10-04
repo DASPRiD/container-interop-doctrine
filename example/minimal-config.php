@@ -23,3 +23,9 @@ return [
         ],
     ],
 ];
+
+/**
+* switch out the user and password with the correct connection string
+* note that the my_entity driver you specified  is looking for entities written in xml files
+* for entities written in php use the Annotation Driver (see full config)
+*/

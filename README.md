@@ -1,13 +1,13 @@
-# container-interop-doctrine
+# container-interop-doctrine: Doctrine Factories for PSR-11
 
 [![Latest Stable Version](https://poser.pugx.org/dasprid/container-interop-doctrine/v/stable)](https://packagist.org/packages/dasprid/container-interop-doctrine)
 [![Total Downloads](https://poser.pugx.org/dasprid/container-interop-doctrine/downloads)](https://packagist.org/packages/dasprid/container-interop-doctrine)
 [![Build Status](https://api.travis-ci.org/DASPRiD/container-interop-doctrine.png?branch=master)](http://travis-ci.org/DASPRiD/container-interop-doctrine)
 [![Coverage Status](https://coveralls.io/repos/DASPRiD/container-interop-doctrine/badge.png?branch=master)](https://coveralls.io/r/DASPRiD/container-interop-doctrine)
 
-[Doctrine](https://github.com/doctrine) factories for [container-interop](https://github.com/container-interop/container-interop)
+[Doctrine](https://github.com/doctrine) factories for [PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md) (previously known as `container-interop`).
 
-This package provides a set of factories to be used with containers using the container-interop standard for an easy
+This package provides a set of factories to be used with containers using the PSR-11 standard for an easy
 Doctrine integration in a project.
 
 ## Installation

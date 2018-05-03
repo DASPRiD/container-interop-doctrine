@@ -1,7 +1,7 @@
 {
     "name": "dasprid/container-interop-doctrine",
     "type": "library",
-    "description": "Doctrine factories for container-interop",
+    "description": "Doctrine factories for PSR-11",
     "homepage": "https://github.com/DASPRiD/container-interop-doctrine",
     "license" : "BSD-2-Clause",
     "require": {

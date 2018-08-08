@@ -87,6 +87,12 @@ class ConfigurationFactory extends AbstractFactory
             $configuration->setNamingStrategy($config['naming_strategy']);
         }
 
+        if (is_string($config['quote_strategy'])) {
+            $configuration->setQuoteStrategy($container->get($config['quote_strategy']));
+        } elseif (null !== $config['quote_strategy']) {
+            $configuration->setQuoteStrategy($config['quote_strategy']);
+        }
+
         if (is_string($config['repository_factory'])) {
             $configuration->setRepositoryFactory($container->get($config['repository_factory']));
         } elseif (null !== $config['repository_factory']) {
@@ -162,6 +168,7 @@ class ConfigurationFactory extends AbstractFactory
             'named_native_queries' => [],
             'custom_hydration_modes' => [],
             'naming_strategy' => null,
+            'quote_strategy' => null,
             'default_repository_class_name' => null,
             'repository_factory' => null,
             'class_metadata_factory_name' => null,

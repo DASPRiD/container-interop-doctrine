@@ -20,6 +20,7 @@ return [
                 'named_native_queries' => [],
                 'custom_hydration_modes' => [],
                 'naming_strategy' => null,
+                'quote_strategy' => null,
                 'default_repository_class_name' => null,
                 'repository_factory' => null,
                 'class_metadata_factory_name' => null,

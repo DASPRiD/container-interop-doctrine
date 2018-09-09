@@ -67,7 +67,7 @@ class CacheFactory extends AbstractFactory
                 break;
 
             default:
-                $cache = new $config['class']();
+                $cache = $container->has($config['class']) ? $container->get($config['class']) : new $config['class']();
         }
 
         if ($cache instanceof MemcacheCache) {

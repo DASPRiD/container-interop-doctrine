@@ -112,8 +112,9 @@ return [
                 'class' => \Doctrine\Common\Cache\ZendDataCache::class,
                 'namespace' => 'container-interop-doctrine',
             ],
-            'my_cache_provider' => [ 
-                'class' => \App\Doctrine\CustomCacheProvider::class, // its recommended to provide a factory to the container for the custom cache provider 
+            'my_cache_provider' => [
+                // its recommended to provide a factory to the container for the custom cache provider
+                'class' => \App\Doctrine\CustomCacheProvider::class,
             ],
             'chain' => [
                 'class' => \Doctrine\Common\Cache\ChainCache::class,

@@ -113,8 +113,7 @@ return [
                 'namespace' => 'container-interop-doctrine',
             ],
             'my_cache_provider' => [
-                // its recommended to provide a factory to the container for the custom cache provider
-                'class' => \App\Doctrine\CustomCacheProvider::class,
+                'class' => \App\Doctrine\CustomCacheProvider::class, //The class is looked up in the container
             ],
             'chain' => [
                 'class' => \Doctrine\Common\Cache\ChainCache::class,

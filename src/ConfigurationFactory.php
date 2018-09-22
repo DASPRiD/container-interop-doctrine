@@ -171,7 +171,7 @@ class ConfigurationFactory extends AbstractFactory
                 'default_lifetime' => 3600,
                 'default_lock_lifetime' => 60,
                 'file_lock_region_directory' => '',
-                'regtions' => [],
+                'regions' => [],
             ],
             'sql_logger' => null,
         ];

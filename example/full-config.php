@@ -112,11 +112,14 @@ return [
                 'class' => \Doctrine\Common\Cache\ZendDataCache::class,
                 'namespace' => 'container-interop-doctrine',
             ],
+            'my_cache_provider' => [
+                'class' => \App\Doctrine\CustomCacheProvider::class, //The class is looked up in the container
+            ],
             'chain' => [
                 'class' => \Doctrine\Common\Cache\ChainCache::class,
                 'providers' => ['array', 'redis'], // you can use any provider listed above
                 'namespace' => 'container-interop-doctrine', // will be applied to all providers in the chain
-            ],
+            ]
         ],
         'types' => [],
     ],

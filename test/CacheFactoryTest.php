@@ -11,6 +11,7 @@ namespace ContainerInteropDoctrineTest;
 
 use ContainerInteropDoctrine\AbstractFactory;
 use ContainerInteropDoctrine\CacheFactory;
+use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\ChainCache;
 use Doctrine\Common\Cache\FilesystemCache;
 use Psr\Container\ContainerInterface;
@@ -74,6 +75,7 @@ class CacheFactoryTest extends PHPUnit_Framework_TestCase
         $container = $this->prophesize(ContainerInterface::class);
         $container->has('config')->willReturn(true);
         $container->get('config')->willReturn($config);
+        $container->has(ArrayCache::class)->willReturn(false);
 
         $factory = new CacheFactory('chain');
         $cacheInstance = $factory($container->reveal());

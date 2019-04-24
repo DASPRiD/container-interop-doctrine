@@ -59,7 +59,7 @@ class ConnectionFactoryTest extends PHPUnit_Framework_TestCase
         try {
             $factory($container->reveal());
         } catch (ConnectionException $e) {
-            $this->assertContains("Access denied for user ''@'localhost' (using password: NO)", $e->getMessage());
+            $this->assertRegExp('#.*Access denied for user \'\'@\'.*\' \(using password: NO\)#', $e->getMessage());
 
             foreach ($e->getTrace() as $entry) {
                 if ('Doctrine\DBAL\Driver\PDOMySql\Driver' === $entry['class']) {

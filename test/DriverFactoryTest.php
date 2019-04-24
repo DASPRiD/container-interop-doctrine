@@ -5,6 +5,8 @@
 
 namespace ContainerInteropDoctrineTest;
 
+use ContainerInteropDoctrineTest\TestAsset\StubFileDriver;
+use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
 use Doctrine\ORM\Mapping\Driver;
 use OutOfBoundsException;
 use ContainerInteropDoctrine\DriverFactory;
@@ -82,5 +84,30 @@ class DriverFactoryTest extends TestCase
             [ Driver\SimplifiedXmlDriver::class ],
             [ Driver\SimplifiedYamlDriver::class ],
         ];
+    }
+
+    public function testItSupportsSettingDefaultDriverUsingMappingDriverChain()
+    {
+
+        $container = $this->prophesize(ContainerInterface::class);
+        $container->has('config')->willReturn(true);
+        $container->get('config')->willReturn([
+            'doctrine' => [
+                'driver' => [
+                    'orm_default' => [
+                        'class' => MappingDriverChain::class,
+                        'default_driver' => 'orm_stub'
+                    ],
+                    'orm_stub' => [
+                        'class' => TestAsset\StubFileDriver::class,
+                    ],
+                ],
+            ],
+        ]);
+
+        $factory = new DriverFactory();
+
+        $driver = $factory($container->reveal());
+        $this->assertInstanceOf(TestAsset\StubFileDriver::class, $driver->getDefaultDriver());
     }
 }

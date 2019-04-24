@@ -13,7 +13,6 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\CachedReader;
 use Doctrine\Common\Persistence\Mapping\Driver\AnnotationDriver;
-use Doctrine\Common\Persistence\Mapping\Driver\DefaultFileLocator;
 use Doctrine\Common\Persistence\Mapping\Driver\FileDriver;
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
@@ -72,6 +71,10 @@ class DriverFactory extends AbstractFactory
         }
 
         if ($driver instanceof MappingDriverChain) {
+            if (null !== $config['default_driver']) {
+                $driver->setDefaultDriver($this->createWithConfig($container, $config['default_driver']));
+            }
+
             foreach ($config['drivers'] as $namespace => $driverName) {
                 if (null === $driverName) {
                     continue;

@@ -55,6 +55,7 @@ return [
         'event_manager' => [
             'orm_default' => [
                 'subscribers' => [],
+                'listeners' => [],
             ],
         ],
         'driver' => [

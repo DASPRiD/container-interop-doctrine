@@ -10,6 +10,7 @@
 namespace ContainerInteropDoctrine;
 
 use ContainerInteropDoctrine\Exception\DomainException;
+use ContainerInteropDoctrine\Exception\InvalidArgumentException;
 use Doctrine\Common\EventManager;
 use Doctrine\Common\EventSubscriber;
 use Psr\Container\ContainerInterface;
@@ -54,6 +55,48 @@ class EventManagerFactory extends AbstractFactory
             $eventManager->addEventSubscriber($subscriber);
         }
 
+        foreach ($config['listeners'] as $listenerConfig) {
+            if (!is_array($listenerConfig)) {
+                throw new InvalidArgumentException(sprintf(
+                    'Invalid event listener config: must be an array, "%s" given',
+                    gettype($listenerConfig)
+                ));
+            }
+
+            $listener = $listenerConfig['listener'];
+            $listenerName = $listener;
+
+            if (is_object($listener)) {
+                $listenerName = get_class($listener);
+            } elseif (!is_string($listener)) {
+                $listenerName = gettype($listener);
+            } elseif ($container->has($listener)) {
+                $listener = $container->get($listener);
+            } elseif (class_exists($listener)) {
+                $listener = new $listener();
+                $listenerName = get_class($listener);
+            }
+
+            if (!is_object($listener)) {
+                throw new DomainException(sprintf(
+                    'Invalid event listener "%s" given, must be a dependency name, class name or an object',
+                    $listenerName
+                ));
+            }
+
+            foreach ((array) $listenerConfig['events'] as $event) {
+                if (!method_exists($listener, $event)) {
+                    throw new DomainException(sprintf(
+                        'Invalid event listener "%s" given: must have a "%s" method',
+                        $listenerName,
+                        $event
+                    ));
+                }
+            }
+
+            $eventManager->addEventListener($listenerConfig['events'], $listener);
+        }
+
         return $eventManager;
     }
 
@@ -64,6 +107,7 @@ class EventManagerFactory extends AbstractFactory
     {
         return [
             'subscribers' => [],
+            'listeners' => [],
         ];
     }
 }

@@ -17,6 +17,7 @@ use Doctrine\Common\Cache\ChainCache;
 use Doctrine\Common\Cache\FilesystemCache;
 use Doctrine\Common\Cache\MemcacheCache;
 use Doctrine\Common\Cache\MemcachedCache;
+use Doctrine\Common\Cache\PhpFileCache;
 use Doctrine\Common\Cache\PredisCache;
 use Doctrine\Common\Cache\RedisCache;
 use Doctrine\Common\Cache\WinCacheCache;
@@ -49,6 +50,7 @@ class CacheFactory extends AbstractFactory
 
         switch ($config['class']) {
             case FilesystemCache::class:
+            case PhpFileCache::class:
                 $cache = new $config['class']($config['directory']);
                 break;
 
@@ -121,6 +123,13 @@ class CacheFactory extends AbstractFactory
                 return [
                     'class' => MemcachedCache::class,
                     'instance' => 'my_memcached_alias',
+                    'namespace' => 'container-interop-doctrine',
+                ];
+
+            case 'phpfile':
+                return [
+                    'class' => PhpFileCache::class,
+                    'directory' => 'data/cache/DoctrineCache',
                     'namespace' => 'container-interop-doctrine',
                 ];
 

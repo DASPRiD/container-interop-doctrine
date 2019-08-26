@@ -90,6 +90,11 @@ return [
                 'instance' => 'my_memcached_alias',
                 'namespace' => 'container-interop-doctrine',
             ],
+            'phpfile' => [
+                'class' => \Doctrine\Common\Cache\PhpFileCache::class,
+                'directory' => 'data/cache/DoctrineCache',
+                'namespace' => 'container-interop-doctrine',
+            ],
             'predis' => [
                 'class' => \Doctrine\Common\Cache\PredisCache::class,
                 'instance' => 'my_predis_alias',

@@ -1,5 +1,5 @@
 <?php
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 // Standard config keys
 $container = new ServiceManager([

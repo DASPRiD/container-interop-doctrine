@@ -11,7 +11,10 @@ namespace ContainerInteropDoctrineTest;
 
 use ContainerInteropDoctrine\EventManagerFactory;
 use ContainerInteropDoctrine\Exception\DomainException;
+use ContainerInteropDoctrine\Exception\InvalidArgumentException;
+use ContainerInteropDoctrineTest\TestAsset\StubEventListener;
 use ContainerInteropDoctrineTest\TestAsset\StubEventSubscriber;
+use Doctrine\ORM\Events;
 use Psr\Container\ContainerInterface;
 use PHPUnit_Framework_TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -94,6 +97,90 @@ class EventManagerFactoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($eventSubscriber, array_pop($listeners));
     }
 
+    public function testInvalidTypeListener()
+    {
+        $factory = new EventManagerFactory();
+        $this->setExpectedException(
+            InvalidArgumentException::class,
+            'Invalid event listener config: must be an array'
+        );
+        $factory($this->buildContainerWithListener(1)->reveal());
+    }
+
+    public function testInvalidStringListener()
+    {
+        $container = $this->buildContainerWithListener([ 'listener' => 'NonExistentClass']);
+        $container->has('NonExistentClass')->willReturn(false);
+
+        $factory = new EventManagerFactory();
+        $this->setExpectedException(
+            DomainException::class,
+            'Invalid event listener "NonExistentClass" given'
+        );
+        $factory($container->reveal());
+    }
+
+    public function testInvalidEventNameListener()
+    {
+        $container = $this->buildContainerWithListener([
+            'events' => [Events::onFlush, 'foo'],
+            'listener' => new StubEventListener()
+        ]);
+
+        $factory = new EventManagerFactory();
+        $this->setExpectedException(
+            DomainException::class,
+            sprintf(
+                'Invalid event listener "%s" given: must have a "foo" method',
+                StubEventListener::class
+            )
+        );
+        $factory($container->reveal());
+    }
+
+    public function testInstanceListener()
+    {
+        $factory = new EventManagerFactory();
+        $eventManager = $factory($this->buildContainerWithListener([
+            'events' => Events::onFlush,
+            'listener' => new StubEventListener()
+        ])->reveal());
+
+        $this->assertSame(1, count($eventManager->getListeners(Events::onFlush)));
+    }
+
+    public function testClassNameListener()
+    {
+        $container = $this->buildContainerWithListener([
+            'events' => Events::onFlush,
+            'listener' => StubEventListener::class
+        ]);
+        $container->has(StubEventListener::class)->willReturn(false);
+
+        $factory = new EventManagerFactory();
+        $eventManager = $factory($container->reveal());
+
+        $this->assertSame(1, count($eventManager->getListeners(Events::onFlush)));
+    }
+
+    public function testServiceNameListener()
+    {
+        $eventListener = new StubEventListener();
+
+        $container = $this->buildContainerWithListener([
+            'events' => Events::onFlush,
+            'listener' => StubEventListener::class
+        ]);
+        $container->has(StubEventListener::class)->willReturn(true);
+        $container->get(StubEventListener::class)->willReturn($eventListener);
+
+        $factory = new EventManagerFactory();
+        $eventManager = $factory($container->reveal());
+        $listeners = $eventManager->getListeners(Events::onFlush);
+
+        $this->assertSame($eventListener, array_pop($listeners));
+    }
+
     /**
      * @param mixed $subscriber
      * @return ContainerInterface|ObjectProphecy
@@ -108,6 +195,29 @@ class EventManagerFactoryTest extends PHPUnit_Framework_TestCase
                     'orm_default' => [
                         'subscribers' => [
                             $subscriber
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+
+        return $container;
+    }
+
+    /**
+     * @param mixed $listener
+     * @return ContainerInterface|ObjectProphecy
+     */
+    private function buildContainerWithListener($listener)
+    {
+        $container = $this->prophesize(ContainerInterface::class);
+        $container->has('config')->willReturn(true);
+        $container->get('config')->willReturn([
+            'doctrine' => [
+                'event_manager' => [
+                    'orm_default' => [
+                        'listeners' => [
+                            $listener
                         ],
                     ],
                 ],

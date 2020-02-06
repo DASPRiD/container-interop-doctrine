@@ -61,7 +61,7 @@ configurations, there are a few examples provided in the example directory:
 
 - [Aura.Di](example/aura-di.php)
 - [PimpleInterop](example/pimple-interop.php)
-- [Zend\ServiceManager](example/zend-servicemanager.php)
+- [Laminas\ServiceManager](example/laminas-servicemanager.php)
 
 ## Example configuration
 
